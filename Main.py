@@ -4,6 +4,7 @@ import base64
 from streamlit_elements import elements, mui, html
 import streamlit_wordcloud as wordcloud
 import streamlit.components.v1 as components
+from streamlit_calendar import calendar
 #Autor: Sergio Lopez
 
 #--------------------------------------------- page config -------------------------------------------------
@@ -643,8 +644,231 @@ with elements("dashboard"):
         mui.Paper("Third item (cannot resize)", key="third_item")
 
 
+st.header('Calendario')
 
+mode = st.selectbox(
+        "Calendar Mode:",
+        (
+            "daygrid",
+            "timegrid",
+            "timeline",
+            "resource-daygrid",
+            "resource-timegrid",
+            "resource-timeline",
+            "list",
+            "multimonth",
+        ),
+    )
 
+events = [
+        {
+            "title": "Event 1",
+            "color": "#FF6C6C",
+            "start": "2023-11-03",
+            "end": "2023-11-05",
+            "resourceId": "a",
+        },
+        {
+            "title": "Event 2",
+            "color": "#FFBD45",
+            "start": "2023-10-01",
+            "end": "2023-10-10",
+            "resourceId": "b",
+        },
+        {
+            "title": "Event 3",
+            "color": "#FF4B4B",
+            "start": "2023-09-20",
+            "end": "2023-09-20",
+            "resourceId": "c",
+        },
+        {
+            "title": "Event 4",
+            "color": "#FF6C6C",
+            "start": "2023-09-20",
+            "end": "2023-09-20",
+            "resourceId": "d",
+        },
+        {
+            "title": "Event 5",
+            "color": "#FFBD45",
+            "start": "2023-09-20",
+            "end": "2023-09-22",
+            "resourceId": "e",
+        },
+        {
+            "title": "Event 6",
+            "color": "#FF4B4B",
+            "start": "2023-07-28",
+            "end": "2023-07-20",
+            "resourceId": "f",
+        },
+        {
+            "title": "Event 7",
+            "color": "#FF4B4B",
+            "start": "2023-07-01T08:30:00",
+            "end": "2023-07-01T10:30:00",
+            "resourceId": "a",
+        },
+        {
+            "title": "Event 8",
+            "color": "#3D9DF3",
+            "start": "2023-07-01T07:30:00",
+            "end": "2023-07-01T10:30:00",
+            "resourceId": "b",
+        },
+        {
+            "title": "Event 9",
+            "color": "#3DD56D",
+            "start": "2023-07-02T10:40:00",
+            "end": "2023-07-02T12:30:00",
+            "resourceId": "c",
+        },
+        {
+            "title": "Event 10",
+            "color": "#FF4B4B",
+            "start": "2023-07-15T08:30:00",
+            "end": "2023-07-15T10:30:00",
+            "resourceId": "d",
+        },
+        {
+            "title": "Event 11",
+            "color": "#3DD56D",
+            "start": "2023-07-15T07:30:00",
+            "end": "2023-07-15T10:30:00",
+            "resourceId": "e",
+        },
+        {
+            "title": "Event 12",
+            "color": "#3D9DF3",
+            "start": "2023-07-21T10:40:00",
+            "end": "2023-07-21T12:30:00",
+            "resourceId": "f",
+        },
+        {
+            "title": "Event 13",
+            "color": "#FF4B4B",
+            "start": "2023-07-17T08:30:00",
+            "end": "2023-07-17T10:30:00",
+            "resourceId": "a",
+        },
+        {
+            "title": "Event 14",
+            "color": "#3D9DF3",
+            "start": "2023-07-17T09:30:00",
+            "end": "2023-07-17T11:30:00",
+            "resourceId": "b",
+        },
+        {
+            "title": "Event 15",
+            "color": "#3DD56D",
+            "start": "2023-07-17T10:30:00",
+            "end": "2023-07-17T12:30:00",
+            "resourceId": "c",
+        },
+        {
+            "title": "Event 16",
+            "color": "#FF6C6C",
+            "start": "2023-07-17T13:30:00",
+            "end": "2023-07-17T14:30:00",
+            "resourceId": "d",
+        },
+        {
+            "title": "Event 17",
+            "color": "#FFBD45",
+            "start": "2023-07-17T15:30:00",
+            "end": "2023-07-17T16:30:00",
+            "resourceId": "e",
+        },
+    ]
+calendar_resources = [
+        {"id": "a", "building": "Building A", "title": "Room A"},
+        {"id": "b", "building": "Building A", "title": "Room B"},
+        {"id": "c", "building": "Building B", "title": "Room C"},
+        {"id": "d", "building": "Building B", "title": "Room D"},
+        {"id": "e", "building": "Building C", "title": "Room E"},
+        {"id": "f", "building": "Building C", "title": "Room F"},
+    ]
+
+calendar_options = {
+        "editable": "true",
+        "navLinks": "true",
+        "resources": calendar_resources,
+    }
+
+if "resource" in mode:
+    if mode == "resource-daygrid":
+        calendar_options = {
+                **calendar_options,
+                "initialDate": "2023-07-01",
+                "initialView": "resourceDayGridDay",
+                "resourceGroupField": "building",
+            }
+    elif mode == "resource-timeline":
+        calendar_options = {
+                **calendar_options,
+                "headerToolbar": {
+                    "left": "today prev,next",
+                    "center": "title",
+                    "right": "resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth",
+                },
+                "initialDate": "2023-07-01",
+                "initialView": "resourceTimelineDay",
+                "resourceGroupField": "building",
+            }
+    elif mode == "resource-timegrid":
+            calendar_options = {
+                **calendar_options,
+                "initialDate": "2023-07-01",
+                "initialView": "resourceTimeGridDay",
+                "resourceGroupField": "building",
+            }
+    else:
+        if mode == "daygrid":
+            calendar_options = {
+                **calendar_options,
+                "headerToolbar": {
+                    "left": "today prev,next",
+                    "center": "title",
+                    "right": "dayGridDay,dayGridWeek,dayGridMonth",
+                },
+                "initialDate": "2023-07-01",
+                "initialView": "dayGridMonth",
+            }
+        elif mode == "timegrid":
+            calendar_options = {
+                **calendar_options,
+                "initialView": "timeGridWeek",
+            }
+        elif mode == "timeline":
+            calendar_options = {
+                **calendar_options,
+                "headerToolbar": {
+                    "left": "today prev,next",
+                    "center": "title",
+                    "right": "timelineDay,timelineWeek,timelineMonth",
+                },
+                "initialDate": "2023-07-01",
+                "initialView": "timelineMonth",
+            }
+        elif mode == "list":
+            calendar_options = {
+                **calendar_options,
+                "initialDate": "2023-07-01",
+                "initialView": "listMonth",
+            }
+        elif mode == "multimonth":
+            calendar_options = {
+                **calendar_options,
+                "initialView": "multiMonthYear",
+            }
+
+state = calendar(
+        events=events,
+        options=calendar_options,
+        key=mode,
+    )
+#st.write(state)
 #------------------------------------- Footer ---------------------------------------------------------
 st.divider()
 with open('src/Frontend/footer.html') as foo:
