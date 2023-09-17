@@ -84,7 +84,6 @@ def show_logos():
 
 show_logos()
 
-st.divider()
 
 #--------------------------------------------- Navbar -------------------------------------------------------
 
@@ -649,5 +648,5 @@ with elements("dashboard"):
 #------------------------------------- Footer ---------------------------------------------------------
 st.divider()
 with open('src/Frontend/footer.html') as foo:
-    components.html(foo.read(),width=1600)
-  #t.markdown(foo.read(), unsafe_allow_html=True)
+    #components.html(foo.read(),width=1600)
+    st.markdown(foo.read(), unsafe_allow_html=True)
