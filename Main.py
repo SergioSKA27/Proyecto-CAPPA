@@ -5,6 +5,7 @@ from streamlit_elements import elements, mui, html
 import streamlit_wordcloud as wordcloud
 import streamlit.components.v1 as components
 from streamlit_calendar import calendar
+import streamlit_antd_components as sac
 #Autor: Sergio Lopez
 
 #--------------------------------------------- page config -------------------------------------------------
@@ -29,6 +30,14 @@ st.markdown(
     [data-testid="collapsedControl"] {
         display: none
     }
+
+.appview-container .main .block-container{{
+    padding-top: 0rem;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    padding-bottom: 0rem;
+        }}
+
 </style>
 """,
     unsafe_allow_html=True,
@@ -607,9 +616,9 @@ with elements("dashboard"):
 
     layout = [
         # Parameters: element_identifier, x_pos, y_pos, width, height, [item properties...]
-        dashboard.Item("first_item", 0, 0, 5, 3, isDraggable=True),
-        dashboard.Item("second_item", 5, 0, 4, 3, isDraggable=True, moved=False),
-        dashboard.Item("third_item", 9, 0, 3, 4, isResizable=True),
+        dashboard.Item("first_item", 0, 0, 6, 3, isDraggable=True),
+        dashboard.Item("second_item", 0, 4, 6, 3, isDraggable=True, moved=False),
+        dashboard.Item("third_item", 6, 0, 6, 3, isResizable=True),
     ]
 
     # Next, create a dashboard layout using the 'with' syntax. It takes the layout
@@ -621,7 +630,7 @@ with elements("dashboard"):
         media.Player(url="https://www.youtube.com/watch?v=iik25wqIuFo", controls=True,key="first_item")
         with mui.Card(key="second_item", sx={"display": "flex", "flexDirection": "column", "borderRadius": 2, "overflow": "hidden"}, elevation=1):
             mui.CardHeader(
-                title="¿ Por qué usar Streamlit ?",
+                title="¿ Por qué usar Streamlit 🍅 ?",
                 subheader="Septiembre 21, 2023",
                 avatar=mui.Avatar("U", sx={"bgcolor": "blue"}),
                 action=mui.IconButton(mui.icon.MoreVert),
@@ -891,6 +900,25 @@ state = calendar(
         key=mode,
     )
 #st.write(state)
+
+st.markdown('''
+<div style="text-align: center;">
+<h1 style="font-size: 30px;font-weight: bold;font-family: 'Courier New'">Redes Sociales</h1>
+</div>
+''',unsafe_allow_html=True)
+sac.segmented(
+
+    items=[
+
+        sac.SegmentedItem(label='facebook',icon='facebook' ),
+
+        sac.SegmentedItem(label='Instagram', icon='instagram' ),
+
+    ], format_func='title', radius='lg', size='lg', align='center', grow=False
+
+)
+
+
 #------------------------------------- Footer ---------------------------------------------------------
 st.divider()
 with open('src/Frontend/footer.html') as foo:
